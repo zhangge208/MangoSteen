@@ -1,7 +1,10 @@
 package com.mangosteen.app.model;
 
+import lombok.Builder;
+
 import java.time.LocalDateTime;
 
+@Builder
 public class UserInfo {
     private Long id;
     private String username;
