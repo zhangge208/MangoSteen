@@ -1,6 +1,6 @@
-package com.mangosteen.app.mapper;
+package com.mangosteen.app.dao.mapper;
 
-import com.mangosteen.app.model.UserInfo;
+import com.mangosteen.app.model.dao.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
