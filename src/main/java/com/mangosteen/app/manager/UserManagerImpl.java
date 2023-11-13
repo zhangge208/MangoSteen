@@ -5,7 +5,6 @@ import com.mangosteen.app.dao.UserDao;
 import com.mangosteen.app.model.bo.UserInfo;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +20,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public UserInfo getUserInfoByUserId(Long userId) {
-        val useInfoDO = userDao.getUserInfoByUserId(userId);
-        return converter.convert(useInfoDO);
+        val userInfoDO = userDao.getUserInfoByUserId(userId);
+        return converter.convert(userInfoDO);
     }
 }
