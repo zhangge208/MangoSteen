@@ -1,13 +1,12 @@
 package com.mangosteen.app.dao;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.mangosteen.app.dao.mapper.UserInfoMapper;
 import com.mangosteen.app.model.dao.UserInfo;
 import lombok.val;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserDaoLegacyTest {
 

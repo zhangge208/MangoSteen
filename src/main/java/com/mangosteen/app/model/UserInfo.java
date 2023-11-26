@@ -15,6 +15,14 @@ public class UserInfo {
 
     private LocalDateTime updateTime;
 
+    /**
+     * Constructor for UserInfo
+     * @param id id
+     * @param username username
+     * @param password password
+     * @param createTime createTime
+     * @param updateTime updateTime
+     */
     public UserInfo(Long id, String username, String password, LocalDateTime createTime, LocalDateTime updateTime) {
         this.id = id;
         this.username = username;

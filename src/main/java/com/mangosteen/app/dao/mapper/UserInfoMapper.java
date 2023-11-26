@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 /**
- * ORM: data model UserInfo -> Table ms_userinfo
+ * ORM: data model UserInfo -> Table ms_userinfo.
  */
 @Mapper
 public interface UserInfoMapper {

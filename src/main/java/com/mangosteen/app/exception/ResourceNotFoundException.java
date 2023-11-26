@@ -4,6 +4,10 @@ import org.springframework.http.HttpStatus;
 
 public class ResourceNotFoundException extends ServiceException {
 
+    /**
+     * Constructor for ResourceNotFoundException
+     * @param message error message
+     */
     public ResourceNotFoundException(String message) {
         super(message);
         this.setStatusCode(HttpStatus.NOT_FOUND.value());

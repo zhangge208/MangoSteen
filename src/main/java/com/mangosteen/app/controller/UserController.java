@@ -3,7 +3,6 @@ package com.mangosteen.app.controller;
 import com.mangosteen.app.converter.btv.UserInfoBTVConverter;
 import com.mangosteen.app.exception.InvalidParameterException;
 import com.mangosteen.app.exception.ResourceNotFoundException;
-import com.mangosteen.app.dao.mapper.UserInfoMapper;
 import com.mangosteen.app.manager.UserManager;
 import com.mangosteen.app.model.vo.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,18 +34,18 @@ public class UserController {
 
     @GetMapping("v1.0/users/{id}")
     @Operation(summary = "Get user information", description = "Return the specific user information",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "User information found"),
-                    @ApiResponse(responseCode = "404", description = "User information not found")
-            })
+        responses = {
+            @ApiResponse(responseCode = "200", description = "User information found"),
+            @ApiResponse(responseCode = "404", description = "User information not found")
+        })
     ResponseEntity<UserInfo> getUserInfoById(@Parameter(description = "The user id to fetch")
-                                      @PathVariable("id") Long id) {
+                                             @PathVariable("id") Long id) {
         if (id < 0L) {
             throw new InvalidParameterException("User Id must be greater than 0");
         }
         val userInfoBO = Optional.ofNullable(userManager.getUserInfoByUserId(id))
-                               .orElseThrow(() -> new ResourceNotFoundException(
-                                       String.format("There is no user with id: %s", id)));
+            .orElseThrow(() -> new ResourceNotFoundException(
+                String.format("There is no user with id: %s", id)));
         return ResponseEntity.ok(converter.convert(userInfoBO));
 
 

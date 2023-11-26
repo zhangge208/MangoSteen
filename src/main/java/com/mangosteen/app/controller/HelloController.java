@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Hello Controller
+ * Hello Controller.
  */
 @RestController
 public class HelloController {
@@ -26,6 +26,13 @@ public class HelloController {
     }
 
     //http://localhost:8080/v1.0/greeting?name=zhangsan&id=100
+
+    /**
+     * Say Greeting API.
+     * @param name name
+     * @param id id
+     * @return hello greet
+     */
     @GetMapping("v1.0/greeting")
     public String sayGreeting(@RequestParam("name") String name,
                               @RequestParam("id") Long id) {
