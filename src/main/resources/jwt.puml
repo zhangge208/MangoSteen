@@ -1,0 +1,47 @@
+@startuml
+
+participant "客户端" as Client
+participant "服务端" as Server
+
+' 客户端发送登录请求
+Client -> Server : 输入username/password登录
+note right of Server
+  服务端接收到登录请求后，验证用户名和密码
+  生成token和refresh_token
+end note
+
+Server -> Client : 返回token和refresh_token
+note left of Client
+  token和refresh_token保存到本地
+end note
+
+Client -> Server : 使用token进行请求
+alt token有效
+  note right of Server : 服务端验证token有效性, token没过期
+  Server -> Client : 返回请求的资源
+else token过期
+  note right of Server : 服务端检测到token过期
+  Server -> Client : 通知token过期
+  Client -> Server : 使用refresh_token请求服务器资源
+    alt refresh_token未过期
+        note right of Server
+            服务端验证refresh_token
+            如果有效则发放新的token
+        end note
+        Server -> Client : 返回新的token和refresh_token
+        note left of Client
+            使用新的token
+            更新本地的token信息
+        end note
+    else refresh_token过期
+        note right of Server
+            服务端检测到refresh_token过期
+            用户需要重新登录
+        end note
+        Server -> Client : 通知refresh_token过期
+        note left of Client
+            提示用户重新登录
+        end note
+    end
+end
+@enduml

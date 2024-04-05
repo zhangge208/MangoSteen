@@ -12,4 +12,5 @@ public interface UserManager {
      * @return the specific user info
      */
     UserInfo getUserInfoByUserId(Long userId);
+
 }

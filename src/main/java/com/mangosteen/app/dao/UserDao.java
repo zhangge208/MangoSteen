@@ -9,4 +9,11 @@ public interface UserDao {
      * @return the specific user information
      */
     UserInfo getUserInfoByUserId(Long id);
+
+    /**
+     * Get user info by username
+     * @param username username
+     * @return the specific user information
+     */
+    UserInfo getUserInfoByUsername(String username);
 }

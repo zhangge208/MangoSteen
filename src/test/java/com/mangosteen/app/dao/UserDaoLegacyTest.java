@@ -25,6 +25,11 @@ class UserDaoLegacyTest {
             public UserInfo getUserInfoByUserId(Long id) {
                 return userInfo;
             }
+
+            @Override
+            public UserInfo getUserInfoByUsername(String username) {
+                return userInfo;
+            }
         };
         // Act
         val userDao = new UserDaoImpl(userInfoMapper);
@@ -47,6 +52,11 @@ class UserDaoLegacyTest {
             @Override
             public UserInfo getUserInfoByUserId(Long id) {
                 throw new RuntimeException("Unknown exception");
+            }
+
+            @Override
+            public UserInfo getUserInfoByUsername(String username) {
+                return null;
             }
         };
         // Act

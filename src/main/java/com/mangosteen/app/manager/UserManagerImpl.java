@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserManagerImpl implements UserManager {
+public class  UserManagerImpl implements UserManager {
     private final UserDao userDao;
     private final UserInfoDTBConverter converter;
 
