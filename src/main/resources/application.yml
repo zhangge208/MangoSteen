@@ -9,3 +9,7 @@ server:
 
 jwt:
   secret: uDdC9SbuVKip3ijiltVsR9X69l+J5EfvKVJMA4MTfbs=
+
+logging:
+  level:
+    com.mangosteen.app: DEBUG

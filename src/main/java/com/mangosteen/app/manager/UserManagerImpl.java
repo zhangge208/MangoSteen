@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 
 import com.mangosteen.app.converter.dtb.UserInfoDTBConverter;
 import com.mangosteen.app.dao.UserDao;
+import com.mangosteen.app.model.LoginUser;
 import com.mangosteen.app.model.bo.UserInfo;
 import com.mangosteen.app.utils.JWTUtil;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class UserManagerImpl implements UserManager {
     private final UserDao userDao;
     private final UserInfoDTBConverter converter;
@@ -57,10 +60,12 @@ public class UserManagerImpl implements UserManager {
         Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(userInfo.getUsername(), userInfo.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userInfo.getUsername());
+        LoginUser userDetails = (LoginUser) userDetailsService.loadUserByUsername(userInfo.getUsername());
+        Long userId = userDetails.getUserInfo().getId();
+        log.debug("User id from login: {}", userId);
 
         // 生成JWT
-        return jwtUtil.generateToken(userDetails.getUsername());
+        return jwtUtil.generateToken(userDetails.getUsername(), userId);
     }
 
     @Override
