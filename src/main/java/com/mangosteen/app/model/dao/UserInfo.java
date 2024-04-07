@@ -17,6 +17,8 @@ public class UserInfo {
 
     private String password;
 
+    private String email;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

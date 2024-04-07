@@ -24,4 +24,9 @@ public class UserDaoImpl implements UserDao {
     public UserInfo getUserInfoByUsername(String username) {
         return userInfoMapper.getUserInfoByUsername(username);
     }
+
+    @Override
+    public void createUser(com.mangosteen.app.model.bo.UserInfo userInfo) {
+        userInfoMapper.createNewUser(userInfo);
+    }
 }

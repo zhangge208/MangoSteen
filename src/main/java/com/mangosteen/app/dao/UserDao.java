@@ -16,4 +16,11 @@ public interface UserDao {
      * @return the specific user information
      */
     UserInfo getUserInfoByUsername(String username);
+
+    /**
+     * Create new user
+     * @param userInfo the related user info
+     * @return the new user info
+     */
+    void createUser(com.mangosteen.app.model.bo.UserInfo userInfo);
 }

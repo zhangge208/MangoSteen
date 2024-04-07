@@ -16,5 +16,6 @@ public class PasswordEncoderDemo {
         String result = encoder.encode("mangosteen");
         System.out.println(encoder.matches("mangosteen", "$2a$WrxWeUdGrxL4c5zQSlDIWOvzjg16$zwD7d9rpOV1aEmMInEpORmPdF.u"));
         System.out.println(result);
+
     }
 }

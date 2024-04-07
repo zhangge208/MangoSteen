@@ -1,5 +1,7 @@
 package com.mangosteen.app.model.bo;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,4 +16,11 @@ public class UserInfo {
     private String username;
 
     private String password;
+
+    private String email;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
+
 }

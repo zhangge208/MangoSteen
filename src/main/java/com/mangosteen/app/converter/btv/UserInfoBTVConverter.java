@@ -11,6 +11,7 @@ public class UserInfoBTVConverter extends Converter<UserInfo, com.mangosteen.app
         return com.mangosteen.app.model.vo.UserInfo.builder()
                                                    .id(userInfo.getId())
                                                    .username(userInfo.getUsername())
+                                                   .email(userInfo.getEmail())
                                                    .build();
     }
 
@@ -19,6 +20,7 @@ public class UserInfoBTVConverter extends Converter<UserInfo, com.mangosteen.app
         return UserInfo.builder()
                        .id(userInfo.getId())
                        .username(userInfo.getUsername())
+                       .email(userInfo.getEmail())
                        .build();
     }
 }

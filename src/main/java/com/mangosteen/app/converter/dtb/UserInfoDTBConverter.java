@@ -12,6 +12,7 @@ public class UserInfoDTBConverter extends Converter<UserInfo, com.mangosteen.app
                                                    .id(userInfo.getId())
                                                    .username(userInfo.getUsername())
                                                    .password(userInfo.getPassword())
+                                                   .email(userInfo.getEmail())
                                                    .build();
     }
 
@@ -21,6 +22,7 @@ public class UserInfoDTBConverter extends Converter<UserInfo, com.mangosteen.app
                        .id(userInfo.getId())
                        .username(userInfo.getUsername())
                        .password(userInfo.getPassword())
+                       .email(userInfo.getEmail())
                        .build();
     }
 }
