@@ -11,7 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,7 @@ public class TagController {
         responses = {
             @ApiResponse(responseCode = "200", description = "Tag created successfully"),
             @ApiResponse(responseCode = "400", description = "Tag input invalid"),
+            @ApiResponse(responseCode = "404", description = "Tag id not found"),
             @ApiResponse(responseCode = "500", description = "Tag created failed")
         })
     ResponseEntity<com.mangosteen.app.model.dao.Tag> updateTag(@CurrentUserId Long userId,
@@ -55,6 +58,27 @@ public class TagController {
         checkTagNeedToUpdate(userId, tagToUpdate);
         return ResponseEntity.ok(tagManager.updateTag(tagToUpdate));
 
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json", consumes = "application/json")
+    @Operation(summary = "Get tag", description = "Return the specific tag information",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Tag fetch successfully"),
+            @ApiResponse(responseCode = "400", description = "Tag input invalid"),
+            @ApiResponse(responseCode = "404", description = "Tag info not found"),
+            @ApiResponse(responseCode = "500", description = "Tag fetch failed")
+        })
+    ResponseEntity<com.mangosteen.app.model.dao.Tag> getTagByTagId(@CurrentUserId Long userId,
+                                                                   @PathVariable("id") Long tagId) {
+        if (tagId == null || tagId < 0L) {
+            throw new InvalidParameterException("The tag id must be not empty and positive. tag id: " + tagId);
+        }
+
+        val tag = Optional.ofNullable(tagManager.getTagByTagId(tagId))
+                          .orElseThrow(() -> new ResourceNotFoundException(
+                              "There is no related tag, tag id: "
+                                  + tagId));
+        return ResponseEntity.ok(tag);
     }
 
 
