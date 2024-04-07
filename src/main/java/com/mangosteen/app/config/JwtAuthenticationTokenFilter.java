@@ -40,7 +40,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
             token = authHeader.substring(TOKEN_PREFIX.length());
             username = jwtUtil.extractUsername(token);
-            userId = jwtUtil.extractUserId(token);
         }
         // 校验
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

@@ -1,6 +1,8 @@
 package com.mangosteen.app.controller;
 
+import com.mangosteen.app.annotation.CurrentUserId;
 import com.mangosteen.app.converter.btv.UserInfoBTVConverter;
+import com.mangosteen.app.exception.InvalidParameterException;
 import com.mangosteen.app.exception.ResourceNotFoundException;
 import com.mangosteen.app.manager.UserManager;
 import com.mangosteen.app.model.vo.UserInfo;
@@ -48,19 +50,18 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User information not found")
         })
     ResponseEntity<UserInfo> getUserInfoById(@Parameter(description = "The user id to fetch")
-                                             HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        String token = authHeader.substring(7);
-        Long id = jwtUtil.extractUserId(token);
+                                             @CurrentUserId Long id) {
+
         val userInfoBO = Optional.ofNullable(userManager.getUserInfoByUserId(id))
-            .orElseThrow(() -> new ResourceNotFoundException(
-                String.format("There is no user with id: %s", id)));
+                                 .orElseThrow(() -> new ResourceNotFoundException(
+                                     String.format("There is no user with id: %s", id)));
         return ResponseEntity.ok(converter.convert(userInfoBO));
 
     }
 
     /**
      * Register new user API
+     *
      * @param userInfo user info
      * @return the new user info
      */
