@@ -22,13 +22,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomizedAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    private final ObjectMapper objectMapper;
-
-    @Autowired
-    public CustomizedAuthenticationEntryPoint(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
@@ -43,7 +36,8 @@ public class CustomizedAuthenticationEntryPoint implements AuthenticationEntryPo
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(String.valueOf(MediaType.APPLICATION_JSON));
         OutputStream outputStream = response.getOutputStream();
-        objectMapper.writeValue(outputStream, result);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(outputStream, result);
         outputStream.flush();
 
 

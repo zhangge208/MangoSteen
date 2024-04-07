@@ -21,4 +21,14 @@ public class TagDaoImpl implements TagDao{
     public int countTagByUserIdAndTagName(String tagName, Long userId) {
         return tagMapper.countTagByUserIdAndTagName(tagName, userId);
     }
+
+    @Override
+    public Tag getTag(Long id) {
+        return tagMapper.getTagByTagId(id);
+    }
+
+    @Override
+    public int updateTag(Tag tagToUpdate) {
+        return tagMapper.updateTag(tagToUpdate);
+    }
 }

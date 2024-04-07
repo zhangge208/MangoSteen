@@ -1,8 +1,5 @@
 package com.mangosteen.app.manager;
 
-import java.sql.SQLSyntaxErrorException;
-import java.util.Optional;
-
 import com.mangosteen.app.dao.TagDao;
 import com.mangosteen.app.exception.InternalServiceFailureException;
 import com.mangosteen.app.model.dao.Tag;
@@ -32,7 +29,28 @@ public class TagManagerImpl implements TagManager {
     }
 
     @Override
+    public Tag updateTag(Tag tagToUpdate) {
+        // 1. (大多数适用与NoSQL)从数据库中拿到资源，然后跟要更新的字段合并，然后整体更新
+        // 2. (MySQL) 利用SQL部分更新 UPDATE ... SET ... WHERE
+
+        try {
+            tagDao.updateTag(tagToUpdate); // read after write
+            return tagDao.getTag(tagToUpdate.getId());
+        } catch (Exception ex) {
+            throw new InternalServiceFailureException("There is unexpected internal service error for updating tag: "
+                                                          + ex.getMessage());
+        }
+
+        //return tagDao.getTag(tagToUpdate.getId());
+    }
+
+    @Override
     public boolean checkTagExisted(String name, Long userId) {
         return tagDao.countTagByUserIdAndTagName(name, userId) != 0;
+    }
+
+    @Override
+    public Tag getTagByTagId(Long tagId) {
+        return tagDao.getTag(tagId);
     }
 }
