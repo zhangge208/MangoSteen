@@ -32,7 +32,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    CustomerUserDetailService customerUserDetailService,
-                                                   JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter)
+                                                   JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter,
+                                                   CustomizedAuthenticationEntryPoint authenticationEntryPoint)
         throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests((authorize) -> authorize
@@ -44,8 +45,11 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .userDetailsService(customerUserDetailService);//显式;
 
-        // todo: filter顺序
+        // Jwt auth filter
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // Exception handling
+        http.exceptionHandling(config -> config.authenticationEntryPoint(authenticationEntryPoint));
 
         return http.build();
     }
