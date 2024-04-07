@@ -31,4 +31,9 @@ public class TagDaoImpl implements TagDao{
     public int updateTag(Tag tagToUpdate) {
         return tagMapper.updateTag(tagToUpdate);
     }
+
+    @Override
+    public int deleteTag(Long id) {
+        return tagMapper.deleteTagByTagId(id);
+    }
 }

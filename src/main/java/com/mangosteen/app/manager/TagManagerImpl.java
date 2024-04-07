@@ -53,4 +53,9 @@ public class TagManagerImpl implements TagManager {
     public Tag getTagByTagId(Long tagId) {
         return tagDao.getTag(tagId);
     }
+
+    @Override
+    public void deleteTagByTagId(Long tagId) {
+        tagDao.deleteTag(tagId);
+    }
 }

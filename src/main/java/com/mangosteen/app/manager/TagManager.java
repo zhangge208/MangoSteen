@@ -28,5 +28,16 @@ public interface TagManager {
      */
     public boolean checkTagExisted(String name, Long userId);
 
+    /**
+     * Get tag by tag id.
+     * @param tagId the related tag id.
+     * @return the specific tag info.
+     */
     public Tag getTagByTagId(Long tagId);
+
+    /**
+     * Delete the specific tag.
+     * @param tagId the related tag id.
+     */
+    public void deleteTagByTagId(Long tagId);
 }

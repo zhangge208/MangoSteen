@@ -10,4 +10,6 @@ public interface TagDao {
     Tag getTag(Long id);
 
     int updateTag(Tag tag);
+
+    int deleteTag(Long id);
 }

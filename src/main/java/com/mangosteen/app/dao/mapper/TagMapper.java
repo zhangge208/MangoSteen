@@ -2,6 +2,7 @@ package com.mangosteen.app.dao.mapper;
 
 import com.mangosteen.app.dao.provider.TagSQLProvider;
 import com.mangosteen.app.model.dao.Tag;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -37,4 +38,7 @@ public interface TagMapper {
 
     @UpdateProvider(type = TagSQLProvider.class, method = "updateTag")
     int updateTag(Tag tagToUpdate);
+
+    @Delete("DELETE FROM ms_tag WHERE id = #{id}")
+    int deleteTagByTagId(@Param("id") Long tagId);
 }

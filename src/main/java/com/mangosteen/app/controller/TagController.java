@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,6 +79,34 @@ public class TagController {
                           .orElseThrow(() -> new ResourceNotFoundException(
                               "There is no related tag, tag id: "
                                   + tagId));
+        return ResponseEntity.ok(tag);
+    }
+
+    @DeleteMapping(path = "/{id}", produces = "application/json", consumes = "application/json")
+    @Operation(summary = "Delete tag", description = "Return the deleted tag information",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Tag deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Tag input invalid"),
+            @ApiResponse(responseCode = "404", description = "Tag info not found"),
+            @ApiResponse(responseCode = "500", description = "Tag deleted failed")
+        })
+    ResponseEntity<com.mangosteen.app.model.dao.Tag> deleteTag(@CurrentUserId Long userId,
+                                                                   @PathVariable("id") Long tagId) {
+        if (tagId == null || tagId < 0L) {
+            throw new InvalidParameterException("The tag id must be not empty and positive. tag id: " + tagId);
+        }
+
+        val tag = Optional.ofNullable(tagManager.getTagByTagId(tagId))
+                          .orElseThrow(() -> new ResourceNotFoundException(
+                              "There is no related tag, tag id: "
+                                  + tagId));
+
+        if (!tag.getUserId().equals(userId)) {
+            throw new InvalidParameterException(
+                String.format("The tag id %d and user id %d is not matched",
+                              tag.getId(), userId));
+        }
+        tagManager.deleteTagByTagId(tagId);
         return ResponseEntity.ok(tag);
     }
 
