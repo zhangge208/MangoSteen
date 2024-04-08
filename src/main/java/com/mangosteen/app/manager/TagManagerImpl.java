@@ -63,6 +63,6 @@ public class TagManagerImpl implements TagManager {
 
     @Override
     public List<Tag> getTagListByIds(List<Long> tagIds) {
-        return null;
+        return tagDao.getTagListByIds(tagIds);
     }
 }

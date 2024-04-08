@@ -73,9 +73,10 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
-    public ItemVO createNewItem(ItemVO item, Long userId) {
-        item.setUserId(userId);
-        itemDao.createItem(itemConverter.convert(item));
+    public ItemVO createNewItem(ItemVO itemVO, Long userId) {
+        itemVO.setUserId(userId);
+        val item = itemConverter.convert(itemVO);
+        itemDao.createItem(item);
 
         // how to fetch new item id?
         itemTagMappingDao.batchInsertItemTagMapping(item.getTagIds(), item.getId());

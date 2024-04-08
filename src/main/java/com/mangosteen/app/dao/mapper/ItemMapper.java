@@ -1,10 +1,16 @@
 package com.mangosteen.app.dao.mapper;
 
+import java.util.List;
+
 import com.mangosteen.app.model.dao.Item;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface ItemMapper {
@@ -13,5 +19,20 @@ public interface ItemMapper {
         + "VALUES (#{userId}, #{amount}, #{description}, #{type}, #{status}, #{happenAt})")
     int insertItem(Item item);
 
+    @Select("SELECT id, user_id, amount, description, type, status, happen_at FROM ms_item WHERE id = #{id}")
+    @Results(
+        {
+            @Result(column = "id", property = "id"),
+            @Result(column = "user_id", property = "userId"),
+            @Result(column = "amount", property = "amount"),
+            @Result(column = "happen_at", property = "happenAt"),
+            @Result(column = "type", property = "type"),
+            @Result(column = "description", property = "description"),
+            @Result(column = "status", property = "status"),
+            @Result(column = "id", javaType = List.class, property = "tagIds",
+                many = @Many(select = "com.mangosteen.app.dao.mapper.ItemTagMappingMapper.getTagIdsByItemId")
+            )
+        }
+    )
     Item getItemById(@Param("id") Long id);
 }

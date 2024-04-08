@@ -41,6 +41,6 @@ public class TagDaoImpl implements TagDao{
 
     @Override
     public List<Tag> getTagListByIds(List<Long> ids) {
-        return null;
+        return tagMapper.getTagListByIds(ids);
     }
 }

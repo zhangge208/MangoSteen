@@ -6,16 +6,20 @@ import com.mangosteen.app.model.dao.ItemTagMapping;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface ItemTagMappingMapper {
     @Insert({
         "<script>",
         "INSERT INTO ms_item_tag_mapping(item_id, tag_id, status) VALUES ",
-        "<foreach item = 'item' index = 'index' collection= 'itemTagMappings'",
-        "open ='(' separator = '),(', close=')'>",
-        "#{item.itemId}, #{item.tagId}, #{item.status}",
+        "<foreach item = 'item' index = 'index' collection= 'itemTagMappings' separator = ','>",
+        "(#{item.itemId}, #{item.tagId}, #{item.status})",
         "</foreach>",
+        "</script>"
     })
     int batchItemTagMapping(@Param("itemTagMappings") List<ItemTagMapping> itemTagMappingList);
+
+    @Select("SELECT tag_id FROM ms_item_tag_mapping WHERE item_id = #{itemId}")
+    List<Long> getTagIdsByItemId(@Param("itemId") Long itemId);
 }
