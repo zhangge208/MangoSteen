@@ -1,5 +1,7 @@
 package com.mangosteen.app.manager;
 
+import java.util.List;
+
 import com.mangosteen.app.dao.TagDao;
 import com.mangosteen.app.exception.InternalServiceFailureException;
 import com.mangosteen.app.model.dao.Tag;
@@ -57,5 +59,10 @@ public class TagManagerImpl implements TagManager {
     @Override
     public void deleteTagByTagId(Long tagId) {
         tagDao.deleteTag(tagId);
+    }
+
+    @Override
+    public List<Tag> getTagListByIds(List<Long> tagIds) {
+        return null;
     }
 }

@@ -10,7 +10,10 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
+
+import java.util.List;
 
 @Mapper
 public interface TagMapper {
@@ -41,4 +44,12 @@ public interface TagMapper {
 
     @Delete("DELETE FROM ms_tag WHERE id = #{id}")
     int deleteTagByTagId(@Param("id") Long tagId);
+
+
+    @SelectProvider(type = TagSQLProvider.class, method = "getTagListByIds")
+    @Results({
+        @Result(column = "id", property = "id"),
+        @Result(column = "user_id", property = "userId")
+    })
+    List<Tag> getTagListByIds(List<Long> ids);
 }
