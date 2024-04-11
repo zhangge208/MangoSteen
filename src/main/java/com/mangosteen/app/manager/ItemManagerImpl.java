@@ -1,11 +1,13 @@
 package com.mangosteen.app.manager;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import com.mangosteen.app.converter.ItemConverter;
 import com.mangosteen.app.dao.ItemDao;
 import com.mangosteen.app.dao.ItemTagMappingDao;
 import com.mangosteen.app.exception.InvalidParameterException;
+import com.mangosteen.app.exception.ResourceNotFoundException;
 import com.mangosteen.app.model.dao.Tag;
 import com.mangosteen.app.model.vo.ItemVO;
 import lombok.val;
@@ -86,7 +88,9 @@ public class ItemManagerImpl implements ItemManager {
 
     @Override
     public ItemVO getItemByItemId(Long itemId) {
-        val item = itemDao.getItemById(itemId);
+        val item = Optional.ofNullable(itemDao.getItemById(itemId))
+            .orElseThrow(() -> new ResourceNotFoundException(
+                String.format("There is no related item found, item id: %d", itemId)));
         // converter
         return itemConverter.reverse().convert(item);
     }
