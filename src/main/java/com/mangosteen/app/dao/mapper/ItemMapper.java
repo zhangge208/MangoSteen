@@ -2,6 +2,7 @@ package com.mangosteen.app.dao.mapper;
 
 import java.util.List;
 
+import com.mangosteen.app.dao.provider.ItemSQLProvider;
 import com.mangosteen.app.model.dao.Item;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;
@@ -11,6 +12,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 @Mapper
 public interface ItemMapper {
@@ -35,4 +38,7 @@ public interface ItemMapper {
         }
     )
     Item getItemById(@Param("id") Long id);
+
+    @UpdateProvider(type = ItemSQLProvider.class, method = "updateItem")
+    int updateItem(Item itemToUpdate);
 }

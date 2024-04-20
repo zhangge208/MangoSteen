@@ -24,6 +24,8 @@ public class ItemVO {
 
     private ItemType itemType;
 
+    private String status;
+
     private List<Long> tagIds;
 
     private LocalDateTime happenAt;

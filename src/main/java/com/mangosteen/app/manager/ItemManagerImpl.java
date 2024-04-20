@@ -1,6 +1,7 @@
 package com.mangosteen.app.manager;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.mangosteen.app.converter.ItemConverter;
@@ -55,6 +56,10 @@ public class ItemManagerImpl implements ItemManager {
             throw new InvalidParameterException("The amount must be positive.");
         }
 
+        checkTagRelatedRules(item, userId);
+    }
+
+    private void checkTagRelatedRules(ItemVO item, Long userId) {
         // 2. tag list existing validation -> batch query
         val tagList = tagManager.getTagListByIds(item.getTagIds());
 
@@ -70,8 +75,25 @@ public class ItemManagerImpl implements ItemManager {
         if (!isMatched) {
             throw new InvalidParameterException("The tag list is not matched for user.");
         }
+    }
 
+    @Override
+    public void validateItemToUpdate(ItemVO itemToUpdate) {
+        // item id related item existed
+        val itemResult = getItemByItemId(itemToUpdate.getId());
 
+        if (!Objects.equals(itemToUpdate.getUserId(), itemResult.getUserId())) {
+            throw new InvalidParameterException("The user id and item id are mismatched.");
+        }
+
+        if (itemToUpdate.getAmount() != null && itemToUpdate.getAmount().compareTo(new BigDecimal(0)) <= 0) {
+
+            throw new InvalidParameterException("The amount for updating must be positive.");
+        }
+
+        if (itemToUpdate.getTagIds() != null) {
+            checkTagRelatedRules(itemToUpdate, itemToUpdate.getUserId());
+        }
     }
 
     @Override
@@ -89,9 +111,36 @@ public class ItemManagerImpl implements ItemManager {
     @Override
     public ItemVO getItemByItemId(Long itemId) {
         val item = Optional.ofNullable(itemDao.getItemById(itemId))
-            .orElseThrow(() -> new ResourceNotFoundException(
-                String.format("There is no related item found, item id: %d", itemId)));
+                           .orElseThrow(() -> new ResourceNotFoundException(
+                               String.format("There is no related item found, item id: %d", itemId)));
         // converter
+
+        System.out.println(item);
         return itemConverter.reverse().convert(item);
+    }
+
+    @Override
+    public ItemVO updateItem(ItemVO itemToUpdate) {
+        if (itemToUpdate.getTagIds() != null) {
+            val existingItem = getItemByItemId(itemToUpdate.getId());
+            if (!itemToUpdate.getTagIds().equals(existingItem.getTagIds())) {
+                // delete all of tag/item mapping
+                itemTagMappingDao.deleteItemTagMappingByItemId(itemToUpdate.getId());
+                // create new mapping for updating tag and item
+                itemTagMappingDao.batchInsertItemTagMapping(itemToUpdate.getTagIds(),
+                                                            itemToUpdate.getId());
+            }
+        }
+
+        if (itemToUpdate.getItemType() != null
+            || itemToUpdate.getAmount() != null
+            || itemToUpdate.getDescription() != null
+            || itemToUpdate.getHappenAt() != null
+            || itemToUpdate.getStatus() != null) {
+            itemDao.updateItem(itemConverter.convert(itemToUpdate));
+        }
+
+
+        return getItemByItemId(itemToUpdate.getId());
     }
 }

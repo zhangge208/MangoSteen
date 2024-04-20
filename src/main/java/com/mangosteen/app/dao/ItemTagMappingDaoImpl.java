@@ -26,6 +26,11 @@ public class ItemTagMappingDaoImpl implements ItemTagMappingDao {
                                                                    .build())
                                        .toList();
 
-        return itemTagMappingMapper.batchItemTagMapping(itemTagMappingList);
+        return itemTagMappingMapper.batchInsertItemTagMapping(itemTagMappingList);
+    }
+
+    @Override
+    public void deleteItemTagMappingByItemId(Long itemId) {
+        itemTagMappingMapper.deleteItemTagMappingByItemId(itemId);
     }
 }

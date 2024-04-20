@@ -24,4 +24,11 @@ public class ItemDaoImpl implements ItemDao {
     public Item getItemById(Long id) {
         return itemMapper.getItemById(id);
     }
+
+    @Override
+    public int updateItem(Item itemToUpdate) {
+        return itemMapper.updateItem(itemToUpdate);
+    }
+
+
 }

@@ -4,4 +4,7 @@ import java.util.List;
 
 public interface ItemTagMappingDao {
     int batchInsertItemTagMapping(List<Long> tagIds, Long itemId);
+
+    void deleteItemTagMappingByItemId(Long itemId);
+
 }
