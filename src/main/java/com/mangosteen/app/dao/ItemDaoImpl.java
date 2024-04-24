@@ -1,7 +1,10 @@
 package com.mangosteen.app.dao;
 
+import java.util.List;
+
 import com.mangosteen.app.dao.mapper.ItemMapper;
 import com.mangosteen.app.model.dao.Item;
+import com.mangosteen.app.model.vo.ItemQueryParam;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -28,6 +31,11 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public int updateItem(Item itemToUpdate) {
         return itemMapper.updateItem(itemToUpdate);
+    }
+
+    @Override
+    public List<Item> queryItems(ItemQueryParam param) {
+        return itemMapper.selectItemsByFilters(param);
     }
 
 

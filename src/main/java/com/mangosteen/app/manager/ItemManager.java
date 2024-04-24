@@ -1,6 +1,8 @@
 package com.mangosteen.app.manager;
 
+import com.github.pagehelper.PageInfo;
 import com.mangosteen.app.model.dao.Item;
+import com.mangosteen.app.model.vo.ItemQueryParam;
 import com.mangosteen.app.model.vo.ItemVO;
 
 public interface ItemManager {
@@ -14,6 +16,8 @@ public interface ItemManager {
     ItemVO getItemByItemId(Long itemId);
 
     ItemVO updateItem(ItemVO itemToUpdate);
+
+    PageInfo<Item> queryItems(ItemQueryParam queryParam);
 
 
 }

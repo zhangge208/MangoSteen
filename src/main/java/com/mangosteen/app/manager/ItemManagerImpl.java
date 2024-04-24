@@ -1,15 +1,20 @@
 package com.mangosteen.app.manager;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mangosteen.app.converter.ItemConverter;
 import com.mangosteen.app.dao.ItemDao;
 import com.mangosteen.app.dao.ItemTagMappingDao;
 import com.mangosteen.app.exception.InvalidParameterException;
 import com.mangosteen.app.exception.ResourceNotFoundException;
+import com.mangosteen.app.model.dao.Item;
 import com.mangosteen.app.model.dao.Tag;
+import com.mangosteen.app.model.vo.ItemQueryParam;
 import com.mangosteen.app.model.vo.ItemVO;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -142,5 +147,12 @@ public class ItemManagerImpl implements ItemManager {
 
 
         return getItemByItemId(itemToUpdate.getId());
+    }
+
+    @Override
+    public PageInfo<Item> queryItems(ItemQueryParam queryParam) {
+        PageHelper.startPage(queryParam.getPageNum(), queryParam.getPageSize());
+        List<Item> item = itemDao.queryItems(queryParam);
+        return new PageInfo<>(item);
     }
 }

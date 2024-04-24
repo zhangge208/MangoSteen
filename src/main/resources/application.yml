@@ -13,3 +13,9 @@ jwt:
 logging:
   level:
     com.mangosteen.app: DEBUG
+
+pagehelper:
+  debug: true
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
