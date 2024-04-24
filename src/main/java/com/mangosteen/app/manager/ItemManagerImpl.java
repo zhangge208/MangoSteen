@@ -19,6 +19,7 @@ import com.mangosteen.app.model.vo.ItemVO;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ItemManagerImpl implements ItemManager {
@@ -102,6 +103,7 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
+    @Transactional
     public ItemVO createNewItem(ItemVO itemVO, Long userId) {
         itemVO.setUserId(userId);
         val item = itemConverter.convert(itemVO);
@@ -125,6 +127,7 @@ public class ItemManagerImpl implements ItemManager {
     }
 
     @Override
+    @Transactional
     public ItemVO updateItem(ItemVO itemToUpdate) {
         if (itemToUpdate.getTagIds() != null) {
             val existingItem = getItemByItemId(itemToUpdate.getId());

@@ -26,7 +26,9 @@ public class ItemTagMappingDaoImpl implements ItemTagMappingDao {
                                                                    .build())
                                        .toList();
 
-        return itemTagMappingMapper.batchInsertItemTagMapping(itemTagMappingList);
+        throw new RuntimeException("Throw exception after inserting item.");
+
+        //return itemTagMappingMapper.batchInsertItemTagMapping(itemTagMappingList);
     }
 
     @Override
